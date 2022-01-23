@@ -1,0 +1,78 @@
+plugins {
+	id 'org.springframework.boot' version '2.4.1-SNAPSHOT'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'java'
+}
+
+group = 'com.parcel.ms.reg'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+	maven { url 'https://repo.spring.io/milestone' }
+	maven { url 'https://repo.spring.io/snapshot' }
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter:2.6.2'
+	implementation 'org.springframework.boot:spring-boot-starter-web:2.6.2'
+
+	// data
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.6.2'
+	implementation 'org.hibernate:hibernate-core:5.6.3.Final'
+	implementation 'org.liquibase:liquibase-core:4.6.2'
+	runtimeOnly 'org.postgresql:postgresql:42.3.1'
+
+	// rest client
+	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:3.1.0'
+
+	// redis
+	implementation 'org.redisson:redisson:3.16.7'
+
+	// lombok
+	compileOnly 'org.projectlombok:lombok:1.18.22'
+	annotationProcessor 'org.projectlombok:lombok:1.18.22'
+
+	//swagger
+	implementation 'io.springfox:springfox-boot-starter:3.0.0'
+	implementation 'io.springfox:springfox-swagger-ui:3.0.0'
+
+	// gson
+	implementation 'com.google.code.gson:gson:2.8.9'
+
+	implementation 'javax.xml.bind:jaxb-api:2.4.0-b180830.0359'
+
+	//logging
+	implementation 'net.logstash.logback:logstash-logback-encoder:7.0.1'
+
+	//validation
+	implementation 'org.springframework.boot:spring-boot-starter-validation:2.6.2'
+	
+	// utils
+	implementation 'org.apache.commons:commons-lang3:3.12.0'
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test:2.6.2'
+}
+
+archivesBaseName = "${project.name}"
+
+bootJar {
+	enabled = true
+	archiveFileName = "${project.name}.jar"
+}
+
+jar {
+	enabled = true
+	archiveFileName = "${project.name}-light.jar"
+}
+
+test {
+	useJUnitPlatform()
+}

@@ -1,0 +1,111 @@
+buildscript {
+	ext {
+		kotlinVersion = '1.6.10'
+		springBootVersion = '2.6.3'
+		springCloudVersion = '3.1.0'
+		logbackEncoderVersion = '7.0.1'
+		swaggerVersion = '3.0.0'
+		feignHttpclientVersion = '11.8'
+		spockVersion = '2.0-groovy-3.0'
+		randomBeansVersion = '3.9.0'
+		gsonVersion = '2.8.9'
+		redisVersion = '3.16.7'
+		postgreDriverVersion = '42.3.1'
+		jacksonJaxbVersion = '2.13.1'
+		nimbusSrpVersion = '2.1.0'
+		nimbusJwtVersion = '9.15.2'
+	}
+
+	repositories {
+		mavenCentral()
+	}
+
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+		classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}")
+		classpath("org.jetbrains.kotlin:kotlin-allopen:${kotlinVersion}")
+		classpath("org.jetbrains.kotlin:kotlin-noarg:${kotlinVersion}")
+	}
+}
+
+
+
+
+apply plugin: 'java'
+apply plugin: 'groovy'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'kotlin'
+apply plugin: 'kotlin-spring'
+apply plugin: 'kotlin-noarg'
+
+group = 'com.etaskify.ms'
+version = '1.0'
+sourceCompatibility = JavaVersion.VERSION_17
+
+repositories {
+	mavenCentral()
+	maven { url 'https://repo.spring.io/milestone' }
+	maven { url 'https://repo.spring.io/snapshot' }
+}
+
+dependencies {
+	// spring
+	implementation('org.springframework.boot:spring-boot-starter-web:2.6.2')
+
+	// kotlin
+	implementation('org.jetbrains.kotlin:kotlin-reflect:1.6.0')
+	implementation('org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.0')
+
+	// gson
+	implementation("com.google.code.gson:gson:${gsonVersion}")
+
+	implementation("javax.xml.bind:jaxb-api:2.4.0-b180830.0359")
+	// logging
+	implementation("net.logstash.logback:logstash-logback-encoder:${logbackEncoderVersion}")
+
+	// documentation
+	implementation("io.springfox:springfox-swagger2:${swaggerVersion}")
+	implementation("io.springfox:springfox-swagger-ui:${swaggerVersion}")
+
+	//srp
+	implementation("com.nimbusds:srp6a:${nimbusSrpVersion}")
+	implementation("com.nimbusds:nimbus-jose-jwt:${nimbusJwtVersion}")
+
+	implementation('org.hibernate:hibernate-core:5.6.3.Final')
+
+	runtimeOnly("org.postgresql:postgresql:${postgreDriverVersion}")
+
+	// cache
+	implementation("org.redisson:redisson:${redisVersion}")
+
+	// jackson for logback
+	implementation("com.fasterxml.jackson.module:jackson-module-jaxb-annotations:${jacksonJaxbVersion}")
+
+	// test
+	testImplementation 'org.jetbrains.kotlin:kotlin-test:1.6.0'
+	testImplementation('org.springframework.boot:spring-boot-starter-test:2.6.2') {
+		exclude group: "org.junit.vintage", module: "junit-vintage-engine"
+	}
+	testImplementation("org.spockframework:spock-spring:${spockVersion}")
+	testImplementation("io.github.benas:random-beans:${randomBeansVersion}")
+}
+
+compileKotlin {
+	kotlinOptions {
+		freeCompilerArgs = ["-Xjsr305=strict"]
+		jvmTarget = "15"
+	}
+}
+
+archivesBaseName = "${project.name}"
+
+bootJar {
+	enabled = true
+	archiveFileName = "${project.name}.jar"
+}
+
+jar {
+	enabled = true
+	archiveFileName = "${project.name}-light.jar"
+}

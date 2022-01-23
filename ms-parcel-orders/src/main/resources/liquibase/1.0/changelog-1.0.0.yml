@@ -1,0 +1,54 @@
+databaseChangeLog:
+  - changeSet:
+      id: create_orders_table
+      author: Movla Aliyev
+      changes:
+        - createTable:
+            tableName: orders
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                constraints:
+                  primaryKey: true
+              - column:
+                  name: user_id
+                  type: bigint
+              - column:
+                  name: courier_id
+                  type: bigint
+              - column:
+                  name: status
+                  type: varchar(64)
+              - column:
+                  name: pickup_lat
+                  type: float8
+              - column:
+                  name: pickup_lon
+                  type: float8
+              - column:
+                  name: destination_lat
+                  type: float8
+              - column:
+                  name: destination_lon
+                  type: float8
+              - column:
+                  name: instruction
+                  type: text
+              - column:
+                  name: package_weight
+                  type: float8
+              - column:
+                  name: pickup_phone_number
+                  type: varchar(64)
+              - column:
+                  name: delivery_phone_number
+                  type: varchar(64)
+              - column:
+                  name: created_at
+                  type: timestamp
+              - column:
+                  name: updated_at
+                  type: timestamp
+

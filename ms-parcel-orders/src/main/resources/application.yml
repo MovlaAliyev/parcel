@@ -1,0 +1,54 @@
+server:
+  port: 8080
+
+logging:
+  level:
+    root: info
+    com.pracel.ms: debug
+
+spring:
+  application:
+    name: ms-parcel-orders
+  datasource:
+    url: jdbc:postgresql://postgres:5432/parcel_orders
+    username: postgres
+    password: postgres
+  liquibase:
+    change-log: classpath:liquibase/changelog-master.yml
+  jpa:
+    hibernate:
+      ddl-auto: validate
+  mvc:
+    converters:
+      preferred-json-mapper: gson
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  rabbitmq:
+    host: rabbitmq
+    username: guest
+    password: guest
+    template:
+      retry:
+        enabled: true
+        max-attempts: 2
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 30_000 #ms
+        readTimeout: 30_000 #ms
+        loggerLevel: FULL
+      ms-parcel-users:
+        url: user:8080
+        errorDecoder: com.parcel.ms.orders.client.UserClientErrorDecoder
+
+queue:
+  courier:
+    canceled-q: COURIER_CANCEL
+  order:
+    canceled-q: ORDER_CANCEL
+    on-way-q: ORDER_ON_WAY
+    assigned-q: ORDER_ASSIGENED
+    delivered-q: ORDER_DELIVERED
+    order-ex: ORDER_EX

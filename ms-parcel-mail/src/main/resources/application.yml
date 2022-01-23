@@ -1,0 +1,29 @@
+server:
+  port: 8080
+
+logging:
+  level:
+    root: info
+    com.parcel.ms.otp: debug
+
+spring:
+  application:
+    name: ms-parcel-mail
+  rabbitmq:
+    host: rabbitmq
+    username: guest
+    password: guest
+    template:
+      retry:
+        enabled: true
+        max-attempts: 2
+queue:
+  mail-q: MAIL_Q
+  mail-ex: MAIL_EX
+
+mail:
+  host: smtp.gmail.com
+  port: 587
+  username: testparceltask@gmail.com
+  password: Parcel@test
+

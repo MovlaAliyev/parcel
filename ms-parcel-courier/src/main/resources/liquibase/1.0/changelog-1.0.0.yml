@@ -1,0 +1,54 @@
+databaseChangeLog:
+  - changeSet:
+      id: create_couriers_table
+      author: Movla Aliyev
+      changes:
+        - createTable:
+            tableName: couriers
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                constraints:
+                  primaryKey: true
+              - column:
+                  name: name
+                  type: varchar(64)
+              - column:
+                  name: surname
+                  type: varchar(64)
+              - column:
+                  name: email
+                  type: varchar(64)
+              - column:
+                  name: salt
+                  type: varchar(256)
+              - column:
+                  name: verifier
+                  type: varchar(256)
+              - column:
+                  name: login
+                  type: varchar(256)
+              - column:
+                  name: courier_type
+                  type: varchar(64)
+              - column:
+                  name: phone_number
+                  type: varchar(64)
+              - column:
+                  name: courier_status
+                  type: varchar(64)
+              - column:
+                  name: admin_id
+                  type: bigint
+              - column:
+                  name: status
+                  type: varchar(64)
+              - column:
+                  name: created_at
+                  type: timestamp
+              - column:
+                  name: updated_at
+                  type: timestamp
+

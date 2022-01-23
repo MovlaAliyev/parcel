@@ -1,0 +1,71 @@
+plugins {
+	id 'org.springframework.boot' version '2.6.4-SNAPSHOT'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'java'
+}
+
+
+group = 'com.parcel.ms.auth'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+	maven { url 'https://repo.spring.io/milestone' }
+	maven { url 'https://repo.spring.io/snapshot' }
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter:2.6.2'
+	implementation 'org.springframework.boot:spring-boot-starter-web:2.6.2'
+
+	//srp
+	implementation 'com.nimbusds:srp6a:2.1.0'
+	implementation 'com.nimbusds:nimbus-jose-jwt:9.15.2'
+
+	//swagger
+	implementation 'io.springfox:springfox-boot-starter:3.0.0'
+	implementation 'io.springfox:springfox-swagger-ui:3.0.0'
+
+	implementation 'com.fatboyindustrial.gson-javatime-serialisers:gson-javatime-serialisers:1.1.1'
+
+	// redis
+	implementation 'org.redisson:redisson:3.16.7'
+
+	// lombok
+	compileOnly 'org.projectlombok:lombok:1.18.22'
+	annotationProcessor 'org.projectlombok:lombok:1.18.22'
+
+	// rest client
+	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:3.1.0'
+
+	// gson
+	implementation 'com.google.code.gson:gson:2.8.6'
+
+	implementation 'javax.xml.bind:jaxb-api:2.4.0-b180830.0359'
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test:2.6.2'
+}
+
+test {
+	useJUnitPlatform()
+}
+
+archivesBaseName = "${project.name}"
+
+bootJar {
+	enabled = true
+	archiveFileName = "${project.name}.jar"
+}
+
+jar {
+	enabled = true
+	archiveFileName = "${project.name}-light.jar"
+}
+

@@ -1,0 +1,79 @@
+version: '3.8'
+services:
+  auth:
+    build: ms-parcel-auth/.
+    depends_on:
+      - "user"
+      - "courier"
+  mail:
+    build: ms-parcel-mail/.
+    depends_on:
+      - "rabbitmq"
+  otp:
+    build: ms-parcel-otp/.
+    depends_on:
+      - "rabbitmq"
+  signup:
+    build: ms-parcel-reg/.
+    depends_on:
+      - "postgres"
+      - "cache"
+      - "user"
+      - "otp"
+  order:
+    build: ms-parcel-orders/.
+    depends_on:
+      - "rabbitmq"
+      - "user"
+  courier:
+    build: ms-parcel-courier/.
+    depends_on:
+      - "rabbitmq"
+      - "user"
+  user:
+    build: ms-parcel-users/.
+    depends_on:
+      - "postgres"
+  nginx:
+    image: nginx
+    ports:
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+      - ./nginx/index.html:/app/html:ro
+  cache:
+    image: redis:6.2-alpine
+    restart: always
+    ports:
+      - '6379:6379'
+    command: redis-server --save 20 1 --loglevel warning
+  postgres:
+    image: postgres:10.5
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - APP_DB_USER=parcel
+      - APP_DB_PASS=parcel
+      - USER_DB_NAME=parcel_users
+      - REG_DB_NAME=parcel_reg
+      - ORDERS_DB_NAME=parcel_orders
+      - COURIER_DB_NAME=parcel_couriers
+    logging:
+      options:
+        max-size: 10m
+        max-file: "3"
+    ports:
+      - '5438:5432'
+    volumes: 
+     - .:/docker-entrypoint-initdb.d/
+  rabbitmq:
+    container_name: "rabbitmq"
+    image: rabbitmq:3.8-management-alpine
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    ports:
+      - '5672:5672'
+      - '15672:15672'

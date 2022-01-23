@@ -1,0 +1,46 @@
+server:
+  port: 8080
+
+logging:
+  level:
+    root: info
+    com.pracel.ms: debug
+
+spring:
+  cloud:
+    compatibility-verifier:
+      enabled: false
+  application:
+    name: ms-parcel-reg
+  datasource:
+    url: jdbc:postgresql://localhost:5432/parcel_reg
+    username: postgres
+    password: root
+  liquibase:
+    change-log: classpath:liquibase/changelog-master.yml
+  mvc:
+    converters:
+      preferred-json-mapper: gson
+    pathmatch:
+      matching-strategy: ant_path_matcher
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 30_000 #ms
+        readTimeout: 30_000 #ms
+        loggerLevel: FULL
+      ms-parcel-users:
+        url: user:8080
+        errorDecoder: com.parcel.ms.reg.client.user.UserClientErrorDecoder
+      ms-parcel-otp:
+        url: otp:8080
+        errorDecoder: com.parcel.ms.reg.client.otp.OtpClientErrorDecoder
+
+redis:
+  server:
+    urls: redis://localhost:6379
+
+otp:
+  message: Otp code {otp_code}
+  subject: Otp

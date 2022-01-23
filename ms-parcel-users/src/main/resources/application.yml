@@ -1,0 +1,25 @@
+server:
+  port: 8080
+
+logging:
+  level:
+    root: info
+    com.pracel.ms: debug
+
+spring:
+  application:
+    name: ms-parcel-users
+  datasource:
+    url: jdbc:postgresql://postgres:5432/parcel_users
+    username: postgres
+    password: postgres
+  liquibase:
+    change-log: classpath:liquibase/changelog-master.yml
+  jpa:
+    hibernate:
+      ddl-auto: validate
+  mvc:
+    converters:
+      preferred-json-mapper: gson
+    pathmatch:
+      matching-strategy: ant_path_matcher
